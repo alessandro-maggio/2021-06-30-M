@@ -38,11 +38,35 @@ public class FXMLController {
 
     @FXML
     void doContaArchi(ActionEvent event) {
+    	
+    	try {
+    		double soglia= Double.parseDouble(txtSoglia.getText());
+    		
+    		if(soglia > this.model.getMassimo() || soglia < this.model.getMinimo()) {
+  
+    			txtResult.appendText("Inserire un valore di soglia compreso tra il minimo e il massimo!\n");
+    			return;	
+    		}
+    		
+    		txtResult.appendText("\n"+model.contaArchi(soglia));
+    		
+    	}catch(NumberFormatException e) {
+    		
+    		txtResult.appendText("Inserire un valore numerico valido!");
+    		
+    	}
+    	   	
+    	
 
     }
 
     @FXML
     void doRicerca(ActionEvent event) {
+    	
+    	for(Integer i: model.cercaCammino(Double.parseDouble(txtSoglia.getText()))) {
+    		
+    		txtResult.appendText("\n"+i.toString());
+    	}
 
     }
 
@@ -57,6 +81,7 @@ public class FXMLController {
 
 	public void setModel(Model model) {
 		this.model = model ;
+		txtResult.setText(model.creaGrafo());
 		
 	}
 }
